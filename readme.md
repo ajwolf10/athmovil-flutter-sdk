@@ -46,7 +46,7 @@ Before we get started, let’s configure your project:
 Add the Payment Secure Button SDK dependency to your project.
 ```yaml
 dependencies:
-  athmsdk: 1.0.0
+  athmsdk: 5.0.0
 ```
 
 ### Dependencies
@@ -54,8 +54,11 @@ The Payment Secure Button SDK uses these dependencies.
 ```yaml
 dependencies:
   async: ^2.6.1
-  uuid: 3.0.4
-  intl: ^0.18.1
+  uuid: ^4.0.0
+  intl: ^0.19.0
+  flutter:
+    sdk: flutter
+  provider: ^6.1.1
 ```
 
 ## Android Installation
@@ -65,17 +68,18 @@ Before we get started, let’s configure your Android project:
 Add the Payment Secure Button SDK dependencies to your project.
 ```java
 dependencies {
-    implementation 'androidx.annotation:annotation:1.2.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'androidx.annotation:annotation:1.7.0'
+    implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
 }
 ```
 
 ### Manifest
 Configure the activity where the payment response will be sent to on your manifest. In order to open the ATH Móvil app on Android 11 or higher, include the following querie object.
 ```xml
-<queries>
+ <queries>
     <package android:name="com.evertec.athmovil.android" />
     
     <intent>
@@ -156,10 +160,10 @@ ATHMovilPaymentSecureButton(style: Style.orange,
 #### Configure the payment.
 Add all required imports to the dart file of your checkout screen.
 ```dart
-import 'athmovil_checkout_flutter/interfaces/athmovil_payment_response_listener.dart';
-import 'athmovil_checkout_flutter/model/athmovil_payment.dart';
-import 'athmovil_checkout_flutter/model/athmovil_payment_response.dart';
-import 'athmovil_checkout_flutter/widget/athmovil_payment_secure_button.dart';
+import 'package:athmovil_checkout_flutter/interfaces/athmovil_payment_response_listener.dart';
+import 'package:athmovil_checkout_flutter/model/athmovil_payment.dart';
+import 'package:athmovil_checkout_flutter/model/athmovil_payment_response.dart';
+import 'package:athmovil_checkout_flutter/widget/athmovil_payment_secure_button.dart';
 ```
 
 Create an `ATHMovilPayment` object on the main class of the file.
@@ -180,29 +184,29 @@ ATHMovilPayment(
 
 | Method  | Data Type | Required | Description |
 | ------------- |:-------------:|:-----:| ------------- |
-| `phoneNumber` | String | Phone number of customer. |
-| `businessToken` | String | Yes | Determines the Business account where the payment will be sent to. |
-| `callbackSchema` | String | Yes | Android schema configuration name of manifest / iOS URL Schema. |
-| `timeout` | Int | No | Expires the payment process if the payment hasn't been completed by the user after the provided amount of time (in seconds). Countdown starts immediately after the user presses the Payment Secure Button. Default value is set to 600 seconds (10 mins). |
-| `total` | Double | Yes | Total amount to be paid by the end user. |
-| `subtotal` | Double | No | Optional  variable to display the payment subtotal (if applicable) |
-| `tax` | Double | No | Optional variable to display the payment tax (if applicable). |
-| `metadata1` | String | No | Optional variable to attach data to the payment object. |
-| `metadata2` | String | No | Optional variable to attach data to the payment object. |
-| `items` | Array | No | Optional variable to display the items that the user is purchasing on ATH Móvil's payment screen. Items on the array are expected in the following order: (“name”, “desc”, "quantity", “price”, “metadata”) |
+| `businessToken`   | String | Yes | Determines the Business account where the payment will be sent to. |
+| `callbackSchema`  | String | Yes | Android schema configuration name of manifest / iOS URL Schema. |
+| `timeout`         | Int    | No  | Expires the payment process if the payment hasn't been completed by the user after the provided amount of time (in seconds). Countdown starts immediately after the user presses the Payment Secure Button. Default value is set to 600 seconds (10 mins). |
+| `total`           | Double | Yes | Total amount to be paid by the end user. |
+| `subtotal`        | Double | No  | Optional  variable to display the payment subtotal (if applicable) |
+| `tax`             | Double | No  | Optional variable to display the payment tax (if applicable). |
+| `metadata1`       | String | No  | Optional variable to attach data to the payment object. |
+| `metadata2`       | String | No  | Optional variable to attach data to the payment object. |
+| `items`           | Array  | No  | Optional variable to display the items that the user is purchasing on ATH Móvil's payment screen. Items on the array are expected in the following order: (“name”, “desc”, "quantity", “price”, “metadata”) |
+| `phoneNumber`     | String | No  | Identify the customer's phone number. Should always be configured as an empty string. |
 
 In the request make sure you comply with the following requirements for `ATHMovilPayment` object, otherwise you will receive an exception on the callback:
 
 | Variable  | Expeted Value |
 | ------------- |:-------------:|
-| `total` | Positive value |
-| `subtotal` | Positive value or zero |
-| `tax` | Positive value or zero |
-| `metadata1` | Spaces, letters and numbers, max length 40|
-| `metadata2` | Spaces, letters and numbers, max length 40|
+| `total`       | Positive value |
+| `subtotal`    | Positive value or zero |
+| `tax`         | Positive value or zero |
+| `metadata1`   | Spaces, letters and numbers, max length 40|
+| `metadata2`   | Spaces, letters and numbers, max length 40|
 | `publicToken` | String |
-| `timeout` | Integer between 60 and 600 |
-| `phoneNumber` | String | Phone number of customer. |
+| `timeout`     | Integer between 60 and 600 |
+| `phoneNumber` | String |
 
 If you provide items in the request make sure you comply with these requirements for the `ATHMovilItem` object:
 
