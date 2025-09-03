@@ -22,9 +22,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "athmExceptionMessage": MessageLookupByLibrary.simpleMessage(
-            "Sorry for the inconvenience. Please try again later."),
-        "athmExceptionTitle":
-            MessageLookupByLibrary.simpleMessage("Something went wrong...")
-      };
+    "athmExceptionMessage": MessageLookupByLibrary.simpleMessage(
+      "Sorry for the inconvenience. Please try again later.",
+    ),
+    "athmExceptionTitle": MessageLookupByLibrary.simpleMessage(
+      "Something went wrong...",
+    ),
+  };
 }

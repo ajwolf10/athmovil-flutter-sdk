@@ -33,6 +33,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    // 🔧 ESTA ES LA SECCIÓN QUE AGREGA LA SOLUCIÓN
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
     ndkVersion '21.1.6352462'
     buildToolsVersion '30.0.3'
 }

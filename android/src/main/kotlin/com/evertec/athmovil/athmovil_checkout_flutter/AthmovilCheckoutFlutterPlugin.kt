@@ -23,7 +23,6 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.NewIntentListener
-import io.flutter.plugin.common.PluginRegistry.Registrar
 import okhttp3.OkHttpClient
 import org.json.JSONObject
 import retrofit2.Call
@@ -55,7 +54,6 @@ import kotlinx.coroutines.launch
 /** AthmovilCheckoutFlutterPlugin */
 class AthmovilCheckoutFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     /// The MethodChannel that will the communication between Flutter and native Android
-    ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
     private var activity: Activity? = null
@@ -79,18 +77,6 @@ class AthmovilCheckoutFlutterPlugin : FlutterPlugin, MethodCallHandler, Activity
             MethodChannel(flutterPluginBinding.binaryMessenger, RequestConstants.ATHM_CHANNEL_NAME)
         channel.setMethodCallHandler(this)
         context = flutterPluginBinding.applicationContext
-    }
-
-    /**
-     * Use this method to support the version v1.
-     */
-    fun registerWith(registrar: Registrar) {
-        val channel = MethodChannel(registrar.messenger(), RequestConstants.ATHM_CHANNEL_NAME)
-        val plugin = AthmovilCheckoutFlutterPlugin()
-        plugin.activity = registrar.activity()
-        plugin.context = plugin.activity?.baseContext!!
-        channel.setMethodCallHandler(plugin)
-        registrar.addNewIntentListener(plugin.resultListener)
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) { 
@@ -289,7 +275,6 @@ class AthmovilCheckoutFlutterPlugin : FlutterPlugin, MethodCallHandler, Activity
             athmPayment.publicToken.lowercase(
                 Locale.getDefault()
             ) == RequestConstants.ATHM_DUMMY_TOKEN -> {
-
                 channel.invokeMethod(
                     RequestConstants.ATHM_PAYMENT_RESULT,
                     RequestConstants.ATHM_CANCELLED_RESULT
@@ -315,20 +300,8 @@ class AthmovilCheckoutFlutterPlugin : FlutterPlugin, MethodCallHandler, Activity
 
     private fun verifyPaymentStatus(athmPayment: ATHMPayment?) {
 
-        val url = when (buildType) {
-            ".qa" -> {
-                RequestConstants.ATHM_INTERNAL_TEST_URL
-            }
-            ".qacert" -> {
-                RequestConstants.ATHM_INTERNAL_TEST_URL
-            }
-            ".piloto" -> {
-                RequestConstants.ATHM_PILOTO_URL
-            }
-            else -> {
-                RequestConstants.ATHM_PRODUCTION_URL
-            }
-        }
+        val url = RequestConstants.ATHM_PRODUCTION_URL;
+        
         val retrofit: Retrofit? = getHttpClient()?.let {
             Retrofit.Builder()
                 .baseUrl(url)
@@ -390,8 +363,7 @@ class AthmovilCheckoutFlutterPlugin : FlutterPlugin, MethodCallHandler, Activity
                 .build()
         }
          postsService = retrofit?.create(PostService::class.java) ?: throw IllegalStateException("Retrofit instance is null")
-         val call: Call<PaymentResponse>? =
-             paymentRequest?.let { postsService.paymentPost(it, url) }
+         val call: Call<PaymentResponse>? = paymentRequest?.let { postsService.paymentPost(it, url) }
          call?.enqueue(object : Callback<PaymentResponse?> {
              @Override
              override fun onResponse(
@@ -533,17 +505,7 @@ class AthmovilCheckoutFlutterPlugin : FlutterPlugin, MethodCallHandler, Activity
     }
 
     private fun baseUrlAWS() : String{
-        return when (buildType) {
-            ".qa" -> {
-                RequestConstants.ATHM_AWS_QA_URL
-            }
-            ".qacert" -> {
-                RequestConstants.ATHM_AWS_CERT_URL
-            }
-            else -> {
-                RequestConstants.ATHM_AWS_PROD_URL
-            }
-        }
+        return RequestConstants.ATHM_AWS_PROD_URL;
     }
 
     private fun showLoading() {
@@ -568,5 +530,4 @@ class AthmovilCheckoutFlutterPlugin : FlutterPlugin, MethodCallHandler, Activity
             }
         }
     }
-
 }

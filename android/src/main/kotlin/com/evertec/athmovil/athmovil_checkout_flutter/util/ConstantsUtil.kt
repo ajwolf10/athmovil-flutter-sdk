@@ -24,12 +24,8 @@ class ConstantsUtil {
         const val ATHM_FAILED_RESULT = "FailedPayment";
         const val ATHM_COMPLETED_RESULT = "CompletedPayment";
         const val ATHM_DUMMY_TOKEN = "dummy"
-        const val ATHM_INTERNAL_TEST_URL = "https://www.athmovil.com"
         const val ATHM_PRODUCTION_URL = "https://www.athmovil.com"
-        const val ATHM_PILOTO_URL = "https://www.athmovil.com"
-        const val ATHM_AWS_QA_URL = "ozm9fx7yw5-vpce-0c7145d0436fe328e.execute-api.us-east-1.amazonaws.com"
-        const val ATHM_AWS_CERT_URL = "gej11zn24l-vpce-009e80de2a5fcea32.execute-api.us-east-1.amazonaws.com"
-        const val ATHM_AWS_PROD_URL = "ze9tdonfjl-vpce-0dbf78eed6413b115.execute-api.us-east-1.amazonaws.com"
+        const val ATHM_AWS_PROD_URL = "payments.athmovil.com"
         const val ATHM_API_PAYMENT = "/api/business-transaction/ecommerce/payment"
         const val ATHM_API_AUTHORIZATION = "/api/business-transaction/ecommerce/authorization"
         const val ATHM_SEND_PAYMENT = "sendPayment"

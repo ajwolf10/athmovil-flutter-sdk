@@ -3,7 +3,7 @@ import 'package:athmovil_checkout_flutter/model/athmovil_item.dart';
 import 'package:athmovil_checkout_flutter/model/athmovil_payment.dart';
 import 'package:athmovil_checkout_flutter/model/athmovil_payment_response.dart';
 import 'package:athmovil_checkout_flutter/util/constants_util.dart';
-import 'package:athmovil_checkout_flutter/widget/athmovil_payment_button.dart';
+import 'package:athmovil_checkout_flutter/widget/athmovil_payment_secure_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:athmovil_checkout_flutter/generated/l10n.dart';
@@ -81,8 +81,8 @@ class _MyWidgetState extends State<MyWidget>
               Expanded(child: SizedBox.shrink()),
               Container(
                 height: 55,
-                child: ATHMovilPaymentButton(
-                  buildType: ".qa",
+                child: ATHMovilPaymentSecureButton(
+                  buildType: ".qacert",
                   athMovilPayment: ATHMovilPayment(
                     businessToken: 'dummy',
                     callbackSchema: 'ATHMSDK',
@@ -94,6 +94,7 @@ class _MyWidgetState extends State<MyWidget>
                       ATHMovilItem.createDefault(),
                       ATHMovilItem.createDefault()
                     ],
+                    phoneNumber:"",
                   ),
                   listener: this,
                   style: Style.dark,
